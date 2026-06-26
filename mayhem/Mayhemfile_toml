@@ -1,0 +1,14 @@
+project: savantenvs/tomlkit
+target: fuzz-toml
+
+# Seeds: the canonical two-entry form (SPEC §6.2 item 14) — the server-accumulated tar PLUS the
+# per-target directory, relative to the package dir.
+testsuite:
+  - https://$MAYHEM_DOMAIN/$MAYHEM_PROJECT/$MAYHEM_TARGET/testsuite.tar
+  - file://mayhem/fuzz-toml/testsuite
+
+cmds:
+  # PyInstaller --onedir frozen Atheris/libFuzzer target (see mayhem/build.sh §2b): a self-contained
+  # interpreter image that unpacks NOTHING at runtime, so it runs under Mayhem's read-only mount.
+  - cmd: /mayhem/frozen/fuzz-toml/fuzz-toml
+    libfuzzer: true
