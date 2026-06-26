@@ -1,0 +1,11 @@
+project: savantenvs/tomlkit
+target: fuzz-dumps
+
+# No local seeds: this harness consumes the input only as a PRNG seed for dictgen, so a TOML corpus
+# would be meaningless. The server tar still accumulates the interesting inputs Mayhem finds.
+testsuite:
+  - https://$MAYHEM_DOMAIN/$MAYHEM_PROJECT/$MAYHEM_TARGET/testsuite.tar
+
+cmds:
+  - cmd: /mayhem/frozen/fuzz-dumps/fuzz-dumps
+    libfuzzer: true
